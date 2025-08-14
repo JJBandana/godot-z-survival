@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://ciek3jho5i2qo"]
+
+[ext_resource type="Script" uid="uid://i4c4qxrwl17a" path="res://teleporter.gd" id="1_eumkw"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xxw5r"]
+albedo_color = Color(1, 0.32, 0.32, 1)
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_xxw5r"]
+height = 0.280691
+radius = 0.705566
+
+[node name="Teleporter" type="CSGCylinder3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.165198, 0)
+use_collision = true
+radius = 0.954102
+height = 0.329834
+script = ExtResource("1_eumkw")
+
+[node name="Button" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.166874, 0)
+radius = 0.77002
+height = 0.329834
+material = SubResource("StandardMaterial3D_xxw5r")
+
+[node name="Area3D" type="Area3D" parent="Button"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.266753, 0)
+collision_mask = 2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Button/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0771111, 0)
+shape = SubResource("CylinderShape3D_xxw5r")
+
+[connection signal="body_shape_entered" from="Button/Area3D" to="." method="_on_area_3d_body_shape_entered"]

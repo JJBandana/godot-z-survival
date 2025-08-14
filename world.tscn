@@ -1,0 +1,65 @@
+[gd_scene load_steps=8 format=3 uid="uid://d1ll7bk11rbmg"]
+
+[ext_resource type="PackedScene" uid="uid://dams3luy13s3p" path="res://player.tscn" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://ciek3jho5i2qo" path="res://teleporter.tscn" id="2_fj7yv"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_gv5m4"]
+sky_top_color = Color(0.4, 1, 1, 1)
+sky_horizon_color = Color(1, 1, 1, 1)
+ground_bottom_color = Color(0.744087, 1, 0.996794, 1)
+ground_horizon_color = Color(0.923031, 0.925628, 0.92973, 1)
+
+[sub_resource type="Sky" id="Sky_f3sb7"]
+sky_material = SubResource("ProceduralSkyMaterial_gv5m4")
+
+[sub_resource type="Environment" id="Environment_fj7yv"]
+background_mode = 2
+sky = SubResource("Sky_f3sb7")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tlwt5"]
+albedo_color = Color(0.1, 1, 0.28, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fj7yv"]
+albedo_color = Color(0.530667, 0.36, 1, 1)
+
+[node name="World" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 6.54346, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_fj7yv")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="."]
+use_collision = true
+size = Vector3(10, 1, 10)
+material = SubResource("StandardMaterial3D_tlwt5")
+
+[node name="Teleporter" parent="CSGBox3D" node_paths=PackedStringArray("marker") instance=ExtResource("2_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.680054, -4)
+marker = NodePath("../../CSGBox3D2/Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="CSGBox3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.89694, 0)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -25.7746)
+use_collision = true
+size = Vector3(10, 1, 10)
+material = SubResource("StandardMaterial3D_fj7yv")
+
+[node name="Teleporter2" parent="CSGBox3D2" node_paths=PackedStringArray("marker") instance=ExtResource("2_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -4, 0.680054, -3.72628)
+marker = NodePath("../../CSGBox3D/Marker3D")
+
+[node name="Marker3D" type="Marker3D" parent="CSGBox3D2"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.37227, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.891537, 0.452948, 0, -0.452948, 0.891537, 0, 2.67445, 3.78172)
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("1_f3sb7")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.82362, 0)
