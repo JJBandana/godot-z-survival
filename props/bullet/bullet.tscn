@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://c67se3ja2lq3r"]
+
+[ext_resource type="Script" uid="uid://0hiqf41fv07p" path="res://props/bullet/bullet.gd" id="1_0l0qy"]
+[ext_resource type="Texture2D" uid="uid://cydf3j51srxyp" path="res://addons/kenney_prototype_textures/orange/texture_09.png" id="2_q1q34"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ew5qq"]
+albedo_texture = ExtResource("2_q1q34")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_q1q34"]
+radius = 0.09797944
+
+[node name="Bullet" type="Area3D"]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_0l0qy")
+speed = 50.0
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+radius = 0.1
+material = SubResource("StandardMaterial3D_ew5qq")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_q1q34")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
