@@ -1,7 +1,7 @@
 extends Area3D
 class_name UpgradeItem
 
-@export var upgrade_data: UpgradeData
+@export var upgrade_data: BaseTurretStrategy
 @export var rotate_speed := 60.0 # grados por segundo, para que gire lindo
 
 func _process(delta: float) -> void:

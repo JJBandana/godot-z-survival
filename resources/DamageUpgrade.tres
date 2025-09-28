@@ -1,0 +1,7 @@
+[gd_resource type="Resource" script_class="DamageUpgrade" load_steps=2 format=3 uid="uid://cliopk4k7pgum"]
+
+[ext_resource type="Script" uid="uid://c5ecsstbmwi82" path="res://scripts/strategies/damage_upgrade.gd" id="1_2b3jg"]
+
+[resource]
+script = ExtResource("1_2b3jg")
+metadata/_custom_type_script = "uid://c5ecsstbmwi82"

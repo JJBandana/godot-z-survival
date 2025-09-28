@@ -8,8 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bsbkds0qgt24m" path="res://scenes/vehicles/truck.tscn" id="4_aqk2v"]
 [ext_resource type="Script" uid="uid://bs4ojwjunr4y5" path="res://scripts/systems/wave_manager.gd" id="8_dp8al"]
 [ext_resource type="PackedScene" uid="uid://c31811vueqnv" path="res://scenes/upgrade_item/upgrade_item.tscn" id="8_f1v6p"]
-[ext_resource type="Resource" uid="uid://bfu1ak4b6gx8p" path="res://resources/Speed.tres" id="9_csbb7"]
-[ext_resource type="Resource" uid="uid://j0qssj7l16qr" path="res://resources/Damage.tres" id="10_mmplq"]
+[ext_resource type="Script" uid="uid://c5ecsstbmwi82" path="res://scripts/strategies/damage_upgrade.gd" id="9_f1v6p"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
 sky_top_color = Color(1.92523e-06, 0.68516344, 0.6199385, 1)
@@ -31,6 +30,10 @@ uv1_scale = Vector3(6, 4, 1)
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqk2v"]
 albedo_texture = ExtResource("2_tlwt5")
 uv1_scale = Vector3(16, 2, 1)
+
+[sub_resource type="Resource" id="Resource_csbb7"]
+script = ExtResource("9_f1v6p")
+metadata/_custom_type_script = "uid://c5ecsstbmwi82"
 
 [node name="World" type="Node3D"]
 script = ExtResource("1_ioo17")
@@ -99,8 +102,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.739805, 0, 22.406384)
 
 [node name="UpgradeItem" parent="." instance=ExtResource("8_f1v6p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3869534, 10.413866)
-upgrade_data = ExtResource("9_csbb7")
-
-[node name="UpgradeItem2" parent="." instance=ExtResource("8_f1v6p")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3869534, 15.317822)
-upgrade_data = ExtResource("10_mmplq")
+upgrade_data = SubResource("Resource_csbb7")

@@ -18,17 +18,17 @@ func _on_upgrade_collected(upgrade_resource: Resource):
 	print("GM: Processing global upgrade: ", upgrade_resource)
 	# Aplica la mejora a TODAS las torretas
 	for turret_instance in placed_turrets:
-		apply_upgrade_to_turret(turret_instance, upgrade_resource)
+		turret_instance.add_upgrades(upgrade_resource)
 
 func register_turret(turret_node):
 	placed_turrets.append(turret_node)
 	print("GM: New turret registered. Total: ", placed_turrets.size())
 
 func apply_upgrade_to_turret(turret_instance, upgrade_resource):
-		turret_instance.passive_upgrades.append(upgrade_resource)
-		turret_instance.recalculate_stats()
+		turret_instance.upgrades.append(upgrade_resource)
+		turret_instance._recalculate_stats()
 		
-		print("Turret upgraded. New damage: ", turret_instance.current_damage)
+		print("Turret upgraded.")
 
 func register_wave_manager(manager):
 	wave_manager = manager
