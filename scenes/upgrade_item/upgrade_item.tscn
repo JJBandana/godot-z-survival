@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://c31811vueqnv"]
+
+[ext_resource type="Script" uid="uid://dedvgork34awh" path="res://scenes/upgrade_item/upgrade_item.gd" id="1_2kwsp"]
+[ext_resource type="Texture2D" uid="uid://doyfpixv275ra" path="res://addons/kenney_prototype_textures/purple/texture_10.png" id="2_p826g"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wk3g2"]
+height = 0.5
+radius = 0.125
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_5max8"]
+albedo_texture = ExtResource("2_p826g")
+
+[node name="UpgradeItem" type="Area3D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_2kwsp")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.8660254, -0.5, 0, 0.5, 0.8660254, 0, 0, 0, 1, 0, 0, 0)
+shape = SubResource("CylinderShape3D_wk3g2")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(0.8660254, -0.5, 0, 0.5, 0.8660254, 0, 0, 0, 1, 0, 0, 0)
+radius = 0.125
+height = 0.5
+material = SubResource("StandardMaterial3D_5max8")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

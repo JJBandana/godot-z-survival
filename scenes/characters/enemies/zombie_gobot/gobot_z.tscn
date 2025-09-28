@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpgb1b1a6tm4q"]
+
+[ext_resource type="Script" uid="uid://b5n8da1i8flhy" path="res://scripts/characters/godot_z/gobot_z.gd" id="1_2utia"]
+[ext_resource type="PackedScene" uid="uid://cy36aygvs66pn" path="res://assets/characters/gobot/gobot_skin.tscn" id="2_qsqud"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_2c344"]
+height = 1.394043
+
+[node name="GobotZ" type="CharacterBody3D" groups=["enemies"]]
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_2utia")
+
+[node name="GobotSkin" parent="." instance=ExtResource("2_qsqud")]
+unique_name_in_owner = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6999028, 0)
+shape = SubResource("CapsuleShape3D_2c344")

@@ -19,6 +19,16 @@ config/icon="res://icon.svg"
 
 GameManager="*res://autoload/game_manager.gd"
 
+[file_customization]
+
+folder_colors={
+"res://assets/": "red",
+"res://autoload/": "blue",
+"res://resources/": "green",
+"res://scenes/": "orange",
+"res://scripts/": "yellow"
+}
+
 [global_group]
 
 enemies=""
@@ -26,6 +36,7 @@ player=""
 vehicle=""
 turret=""
 pickup_area=""
+turrets=""
 
 [input]
 

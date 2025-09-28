@@ -2,21 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doyfpixv275ra"
-path.s3tc="res://.godot/imported/texture_10.png-6ebba9cac53386550299b9fc7ba436fd.s3tc.ctex"
+uid="uid://bt5o0sr6peltq"
+path="res://.godot/imported/gobot_gobot_diffuse.png-7e2ba15d192935f3b0de6afe68ed1cf1.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
+generator_parameters={}
 
 [deps]
 
-source_file="res://addons/kenney_prototype_textures/purple/texture_10.png"
-dest_files=["res://.godot/imported/texture_10.png-6ebba9cac53386550299b9fc7ba436fd.s3tc.ctex"]
+source_file="res://assets/characters/gobot/model/gobot_gobot_diffuse.png"
+dest_files=["res://.godot/imported/gobot_gobot_diffuse.png-7e2ba15d192935f3b0de6afe68ed1cf1.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

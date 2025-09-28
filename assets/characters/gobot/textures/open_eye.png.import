@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doyfpixv275ra"
-path.s3tc="res://.godot/imported/texture_10.png-6ebba9cac53386550299b9fc7ba436fd.s3tc.ctex"
+uid="uid://dq675fmt1rg8c"
+path.s3tc="res://.godot/imported/open_eye.png-ae62fd5f58dcf84b05599c8725f72e95.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/kenney_prototype_textures/purple/texture_10.png"
-dest_files=["res://.godot/imported/texture_10.png-6ebba9cac53386550299b9fc7ba436fd.s3tc.ctex"]
+source_file="res://assets/characters/gobot/textures/open_eye.png"
+dest_files=["res://.godot/imported/open_eye.png-ae62fd5f58dcf84b05599c8725f72e95.s3tc.ctex"]
 
 [params]
 

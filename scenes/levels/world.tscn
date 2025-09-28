@@ -1,0 +1,106 @@
+[gd_scene load_steps=16 format=3 uid="uid://d1ll7bk11rbmg"]
+
+[ext_resource type="Texture2D" uid="uid://op2bfbt6w04w" path="res://addons/kenney_prototype_textures/green/texture_08.png" id="1_f3sb7"]
+[ext_resource type="PackedScene" uid="uid://cbp0l57d2kfla" path="res://scenes/hud/hud.tscn" id="1_gbfbk"]
+[ext_resource type="Script" uid="uid://vrn1eq24cbya" path="res://scripts/levels/world.gd" id="1_ioo17"]
+[ext_resource type="PackedScene" uid="uid://cuwkw3xt5wytg" path="res://scenes/characters/sophia/Sophia.tscn" id="2_fj7yv"]
+[ext_resource type="Texture2D" uid="uid://bum740juxlitu" path="res://addons/kenney_prototype_textures/dark/texture_09.png" id="2_tlwt5"]
+[ext_resource type="PackedScene" uid="uid://bsbkds0qgt24m" path="res://scenes/vehicles/truck.tscn" id="4_aqk2v"]
+[ext_resource type="Script" uid="uid://bs4ojwjunr4y5" path="res://scripts/systems/wave_manager.gd" id="8_dp8al"]
+[ext_resource type="PackedScene" uid="uid://c31811vueqnv" path="res://scenes/upgrade_item/upgrade_item.tscn" id="8_f1v6p"]
+[ext_resource type="Resource" uid="uid://bfu1ak4b6gx8p" path="res://resources/Speed.tres" id="9_csbb7"]
+[ext_resource type="Resource" uid="uid://j0qssj7l16qr" path="res://resources/Damage.tres" id="10_mmplq"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
+sky_top_color = Color(1.92523e-06, 0.68516344, 0.6199385, 1)
+sky_horizon_color = Color(1, 0.49354738, 0.32477188, 1)
+ground_bottom_color = Color(1, 0.5607529, 0.15293351, 1)
+ground_horizon_color = Color(0.9911515, 0.49986738, 0, 1)
+
+[sub_resource type="Sky" id="Sky_fj7yv"]
+sky_material = SubResource("ProceduralSkyMaterial_f3sb7")
+
+[sub_resource type="Environment" id="Environment_f3sb7"]
+background_mode = 2
+sky = SubResource("Sky_fj7yv")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fj7yv"]
+albedo_texture = ExtResource("1_f3sb7")
+uv1_scale = Vector3(6, 4, 1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_aqk2v"]
+albedo_texture = ExtResource("2_tlwt5")
+uv1_scale = Vector3(16, 2, 1)
+
+[node name="World" type="Node3D"]
+script = ExtResource("1_ioo17")
+
+[node name="HUD" parent="." instance=ExtResource("1_gbfbk")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 6.54346, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_f3sb7")
+
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6853001, 0.50361943, -0.19481224)
+
+[node name="Truck" parent="." groups=["vehicle"] instance=ExtResource("4_aqk2v")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 9.536242, 0.45153475, 4.4781914)
+
+[node name="Ground" type="Node3D" parent="."]
+
+[node name="Ground" type="CSGBox3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 6)
+use_collision = true
+collision_mask = 0
+size = Vector3(30, 1, 62)
+material = SubResource("StandardMaterial3D_fj7yv")
+
+[node name="Ground2" type="CSGBox3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 28.5, 0, 6)
+use_collision = true
+collision_mask = 0
+size = Vector3(30, 1, 62)
+material = SubResource("StandardMaterial3D_fj7yv")
+
+[node name="CSGBox3D" type="CSGBox3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.5, 0.25, 6)
+use_collision = true
+collision_mask = 0
+size = Vector3(1, 0.5, 62)
+
+[node name="CSGBox3D2" type="CSGBox3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 13.1375885, 0.25, 6)
+use_collision = true
+collision_mask = 0
+size = Vector3(1, 0.5, 62)
+
+[node name="CSGBox3D3" type="CSGBox3D" parent="Ground"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.302628, 0.25, 6)
+use_collision = true
+collision_mask = 0
+size = Vector3(6.5, 0.5, 62)
+material = SubResource("StandardMaterial3D_aqk2v")
+
+[node name="ZombieSpawnPoints" type="Node3D" parent="."]
+script = ExtResource("8_dp8al")
+
+[node name="Marker3D" type="Marker3D" parent="ZombieSpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -15.430441, 0, -8.664711)
+
+[node name="Marker3D2" type="Marker3D" parent="ZombieSpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.739805, 0, -8.664711)
+
+[node name="Marker3D3" type="Marker3D" parent="ZombieSpawnPoints"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.739805, 0, 22.406384)
+
+[node name="UpgradeItem" parent="." instance=ExtResource("8_f1v6p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3869534, 10.413866)
+upgrade_data = ExtResource("9_csbb7")
+
+[node name="UpgradeItem2" parent="." instance=ExtResource("8_f1v6p")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3869534, 15.317822)
+upgrade_data = ExtResource("10_mmplq")

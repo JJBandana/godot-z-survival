@@ -2,21 +2,21 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doyfpixv275ra"
-path.s3tc="res://.godot/imported/texture_10.png-6ebba9cac53386550299b9fc7ba436fd.s3tc.ctex"
+uid="uid://6jb7dt4d54ck"
+path="res://.godot/imported/sophia_diffuse.png-963217ff075a85a4a46f6cee8531e605.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
-"vram_texture": true
+"vram_texture": false
 }
+generator_parameters={}
 
 [deps]
 
-source_file="res://addons/kenney_prototype_textures/purple/texture_10.png"
-dest_files=["res://.godot/imported/texture_10.png-6ebba9cac53386550299b9fc7ba436fd.s3tc.ctex"]
+source_file="res://assets/characters/sophia_skin/model/sophia_diffuse.png"
+dest_files=["res://.godot/imported/sophia_diffuse.png-963217ff075a85a4a46f6cee8531e605.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0

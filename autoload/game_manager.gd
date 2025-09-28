@@ -1,88 +1,65 @@
 extends Node
 
+signal upgrade_collected(upgrade_resource: Resource)
+
 # Referencias a los nodos importantes
-var car : Node = null
+var vehicle : Node = null
 var hud : Node = null
-
-var _wave_number := 0
-var _zombies_to_spawn := 0
-var _zombies_alive := 0
-var _spawn_points: Array = []
-
-signal wave_started(wave_number: int)
-signal wave_cleared(wave_number: int)
-
-var zombie_scene: PackedScene = preload("res://characters/enemies/zombie_gobot/gobot_z.tscn")
-var stats: ZombieStats = preload("res://resources/ZombieStats.tres")
-
-@export var spawn_interval := 1.0 # segundos entre cada spawn
-@export var time_between_waves := 5.0 # descanso entre oleadas
+var wave_manager : Node = null
+var placed_turrets : Array = []
 
 func _ready():
-	print("GameManager listo.")
-
-# Método para registrar el car
-func register_car(car_node: Node):
-	car = car_node
+	upgrade_collected.connect(_on_upgrade_collected)
 	
-	car.battery_full.connect(_on_charging_finished)
-	car.destroyed.connect(_on_car_destroyed)
-	car.charging_started.connect(_on_charging_started)
-	# Conectar HUD si ya existe
+func _on_upgrade_collected(upgrade_resource: Resource):
+	if not upgrade_resource:
+		return
+		
+	print("GM: Processing global upgrade: ", upgrade_resource)
+	# Aplica la mejora a TODAS las torretas
+	for turret_instance in placed_turrets:
+		apply_upgrade_to_turret(turret_instance, upgrade_resource)
+
+func register_turret(turret_node):
+	placed_turrets.append(turret_node)
+	print("GM: New turret registered. Total: ", placed_turrets.size())
+
+func apply_upgrade_to_turret(turret_instance, upgrade_resource):
+		turret_instance.passive_upgrades.append(upgrade_resource)
+		turret_instance.recalculate_stats()
+		
+		print("Turret upgraded. New damage: ", turret_instance.current_damage)
+
+func register_wave_manager(manager):
+	wave_manager = manager
+
+func register_vehicle(vehicle_node: Node):
+	vehicle = vehicle_node
+	if not vehicle.is_connected("charging_started", _on_charging_started):
+		vehicle.charging_started.connect(_on_charging_started)
+	if not vehicle.is_connected("battery_full", _on_charging_finished):
+		vehicle.battery_full.connect(_on_charging_finished)
+	if not vehicle.is_connected("destroyed", _on_vehicle_destroyed):
+		vehicle.destroyed.connect(_on_vehicle_destroyed)
+	
 	if hud:
-		hud.connect_to_car(car)
+		hud.connect_to_vehicle(vehicle)
 
 # Método para registrar el HUD
 func register_hud(hud_node: Node):
 	hud = hud_node
 	# Conectar Auto si ya existe
-	if car:
-		hud.connect_to_car(car)
-
-func _on_charging_finished():
-	pass
+	if vehicle:
+		hud.connect_to_vehicle(vehicle)
 
 func _on_charging_started():
-	pass
+	if wave_manager:
+		wave_manager.start()
 
-func _on_car_destroyed():
-	pass
+func _on_charging_finished():
+	if wave_manager:
+		wave_manager.stop()
 
-func start_game(spawn_points: Array):
-	_spawn_points = spawn_points
-	_wave_number = 0
-	_next_wave()
-
-func _next_wave():
-	_wave_number += 1
-	emit_signal("wave_started", _wave_number)
-
-	# Aumentar dificultad progresivamente
-	_zombies_to_spawn = 3 + _wave_number * 2
-	_zombies_alive = _zombies_to_spawn
-
-	# Empezar a spawnear zombies poco a poco
-	_spawn_wave()
-
-func _spawn_wave():
-	if _zombies_to_spawn <= 0:
-		return
-
-	# Elegir spawn aleatorio
-	var spawn_point = _spawn_points.pick_random()
-	var zombie = zombie_scene.instantiate()
-	zombie.stats = stats
-	spawn_point.add_child(zombie)
-
-	_zombies_to_spawn -= 1
-
-	# Seguir spawneando hasta terminar
-	if _zombies_to_spawn > 0:
-		get_tree().create_timer(spawn_interval).timeout.connect(_spawn_wave)
-
-func zombie_died():
-	_zombies_alive -= 1
-	if _zombies_alive <= 0:
-		emit_signal("wave_cleared", _wave_number)
-		# Esperar antes de empezar la próxima oleada
-		get_tree().create_timer(time_between_waves).timeout.connect(_next_wave)
+func _on_vehicle_destroyed():
+	if wave_manager:
+		wave_manager.stop()

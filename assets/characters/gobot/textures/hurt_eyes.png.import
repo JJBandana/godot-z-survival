@@ -2,8 +2,8 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://doyfpixv275ra"
-path.s3tc="res://.godot/imported/texture_10.png-6ebba9cac53386550299b9fc7ba436fd.s3tc.ctex"
+uid="uid://yj5yx07nva6l"
+path.s3tc="res://.godot/imported/hurt_eyes.png-a5a6c82246aa9b4683fe5aea62ea657b.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -11,8 +11,8 @@ metadata={
 
 [deps]
 
-source_file="res://addons/kenney_prototype_textures/purple/texture_10.png"
-dest_files=["res://.godot/imported/texture_10.png-6ebba9cac53386550299b9fc7ba436fd.s3tc.ctex"]
+source_file="res://assets/characters/gobot/textures/hurt_eyes.png"
+dest_files=["res://.godot/imported/hurt_eyes.png-a5a6c82246aa9b4683fe5aea62ea657b.s3tc.ctex"]
 
 [params]
 
