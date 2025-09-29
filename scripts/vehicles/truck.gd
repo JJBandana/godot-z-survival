@@ -55,3 +55,6 @@ func _on_hood_body_entered(body: Node3D) -> void:
 	if body.is_in_group("player"):
 		print("Player entered")
 		start_charging()
+		
+func _start_turret_deploy():
+	$PickUpArea.enter_deploy_mode()

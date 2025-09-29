@@ -1,5 +1,8 @@
 extends CharacterBody3D
 
+var inside_car:= false
+@export var car: Node3D = null
+
 @export_group("Camera")
 @export_range(0.0, 1.0) var mouse_sensitivity := 0.25
 
@@ -35,12 +38,17 @@ func _input(event):
 				area.try_pickup_turret()
 		else:
 			place_turret()
+	
 
 func _unhandled_input(event: InputEvent) -> void:
 	var is_camera_motion := (
 		event is InputEventMouseMotion and
 		Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
 	)
+	
+	if event.is_action_pressed("deploy_turret"):
+		if inside_car:
+			car._start_turret_deploy()
 	
 	if is_camera_motion: _camera_input_direction = event.screen_relative * mouse_sensitivity
 	
@@ -52,6 +60,12 @@ func _process(_delta):
 		carrying_turret.global_position = place_position
 
 		carrying_turret.look_at(place_position - forward, Vector3.UP)
+		
+	if Input.is_action_just_pressed("interact"):
+		if not inside_car and car and global_position.distance_to(car.global_position) < 3.0:
+			_enter_car()
+		elif inside_car:
+			_exit_car()
 
 func _physics_process(delta: float) -> void:
 	var speed = 3.0 if carrying_turret else move_speed
@@ -122,3 +136,23 @@ func place_turret():
 
 	# Ya estaba colocada enfrente en _process
 	carrying_turret = null
+	
+func _enter_car() -> void:
+	inside_car = true
+	visible = false  # ocultar al jugador dentro del auto
+	_camera.current = false
+	car.get_node("CarCamera").current = true
+	car.set_process_input(true)   # activar control del auto
+	set_process_input(false)      # desactivar control del player
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+
+func _exit_car() -> void:
+	inside_car = false
+	visible = true
+	global_position = car.global_position + Vector3(2, 0, 0)  # salir al lado
+	_camera.current = true
+	car.get_node("CarCamera").current = false
+	car.set_process_input(false) 
+	set_process_input(true)
+	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
+	

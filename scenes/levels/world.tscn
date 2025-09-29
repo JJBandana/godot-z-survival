@@ -5,10 +5,10 @@
 [ext_resource type="Script" uid="uid://vrn1eq24cbya" path="res://scripts/levels/world.gd" id="1_ioo17"]
 [ext_resource type="PackedScene" uid="uid://cuwkw3xt5wytg" path="res://scenes/characters/sophia/Sophia.tscn" id="2_fj7yv"]
 [ext_resource type="Texture2D" uid="uid://bum740juxlitu" path="res://addons/kenney_prototype_textures/dark/texture_09.png" id="2_tlwt5"]
-[ext_resource type="PackedScene" uid="uid://bsbkds0qgt24m" path="res://scenes/vehicles/truck.tscn" id="4_aqk2v"]
 [ext_resource type="Script" uid="uid://bs4ojwjunr4y5" path="res://scripts/systems/wave_manager.gd" id="8_dp8al"]
 [ext_resource type="PackedScene" uid="uid://c31811vueqnv" path="res://scenes/upgrade_item/upgrade_item.tscn" id="8_f1v6p"]
 [ext_resource type="Script" uid="uid://c5ecsstbmwi82" path="res://scripts/strategies/damage_upgrade.gd" id="9_f1v6p"]
+[ext_resource type="PackedScene" uid="uid://bqeis44ueqsri" path="res://scenes/vehicles/new_car.tscn" id="10_csbb7"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
 sky_top_color = Color(1.92523e-06, 0.68516344, 0.6199385, 1)
@@ -47,19 +47,17 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_f3sb7")
 
-[node name="CharacterBody3D" parent="." instance=ExtResource("2_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.6853001, 0.50361943, -0.19481224)
-
-[node name="Truck" parent="." groups=["vehicle"] instance=ExtResource("4_aqk2v")]
-transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 9.536242, 0.45153475, 4.4781914)
+[node name="CharacterBody3D" parent="." node_paths=PackedStringArray("car") instance=ExtResource("2_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1069617, 0.50361943, 8.053774)
+car = NodePath("../Truck")
 
 [node name="Ground" type="Node3D" parent="."]
 
 [node name="Ground" type="CSGBox3D" parent="Ground"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 0, 6)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.435303, 0, 6)
 use_collision = true
 collision_mask = 0
-size = Vector3(30, 1, 62)
+size = Vector3(60.870605, 1, 62)
 material = SubResource("StandardMaterial3D_fj7yv")
 
 [node name="Ground2" type="CSGBox3D" parent="Ground"]
@@ -103,3 +101,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 31.739805, 0, 22.406384)
 [node name="UpgradeItem" parent="." instance=ExtResource("8_f1v6p")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3869534, 10.413866)
 upgrade_data = SubResource("Resource_csbb7")
+
+[node name="Truck" parent="." instance=ExtResource("10_csbb7")]
+transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 9.917625, 0.5, 6.928787)

@@ -99,3 +99,7 @@ Zombies aparecen en oleadas y atacan.
 El jugador los elimina con armas y torretas.
 
 Ganás o perdés según el estado del auto.
+
+LOGROS:
+	* Aplasta un zombie desplegando una torreta
+	* Aplasta a tu companero desplegando una torreta

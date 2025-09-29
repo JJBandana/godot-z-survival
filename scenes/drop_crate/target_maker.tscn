@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://bdw06uagyqccc"]
+
+[ext_resource type="Texture2D" uid="uid://bqsltbqanrnqm" path="res://addons/kenney_prototype_textures/red/texture_05.png" id="1_hogk4"]
+[ext_resource type="Script" uid="uid://dsojv4xg0k6q1" path="res://scenes/drop_crate/target_maker.gd" id="1_p4y0w"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_p4y0w"]
+albedo_texture = ExtResource("1_hogk4")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_b7aj2"]
+material = SubResource("StandardMaterial3D_p4y0w")
+
+[node name="TargetMaker" type="Node3D"]
+script = ExtResource("1_p4y0w")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_b7aj2")
