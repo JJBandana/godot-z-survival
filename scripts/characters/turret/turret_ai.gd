@@ -1,3 +1,4 @@
+class_name Turret
 extends Node3D
 
 @onready var bullet_scene = preload("uid://c67se3ja2lq3r")

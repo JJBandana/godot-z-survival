@@ -4,7 +4,8 @@ signal died
 
 @export_group("Stats")
 @export var stats: ZombieStats
-
+var knockback_velocity:= Vector3.ZERO
+@export var knockback_friction: float = 10.0
 @export var _target: Node3D = null
 @onready var _skin: Node3D = %GobotSkin
 
@@ -35,8 +36,6 @@ func _physics_process(delta: float) -> void:
 		velocity = velocity.move_toward(direction * stats.move_speed, stats.acceleration * delta)
 		velocity.y = y_velocity + stats.gravity * delta
 
-		move_and_slide()
-
 		# Animación correr solo si realmente se mueve
 		if velocity.length() > 0.1:
 			_skin.run()
@@ -54,6 +53,12 @@ func _physics_process(delta: float) -> void:
 		if _attack_timer <= 0.0:
 			attack()
 			_attack_timer = _attack_cooldown
+	
+	velocity += knockback_velocity
+	knockback_velocity = knockback_velocity.move_toward(Vector3.ZERO, knockback_friction * delta)
+	
+	move_and_slide()
+	
 
 func apply_damage(amount: int):
 	_skin.hurt()
@@ -62,6 +67,10 @@ func apply_damage(amount: int):
 	
 	if stats.health <= 0:
 		die()
+
+func apply_knockback(force: Vector3):
+	print("You are a genius")
+	knockback_velocity += force
 
 func die():
 	emit_signal("died")
