@@ -3,7 +3,6 @@ class_name Truck
 
 @onready var cables: Cable = $Cables
 
-
 @export var max_health := 200.0
 @export var max_battery := 100.0
 @export var battery_charge : float = 0.0 :
@@ -35,10 +34,17 @@ func _process(delta):
 		battery_charge = clampf(battery_charge + energy, 0, max_battery)
 
 func connect_to_energy_source(source: EnergySource) -> void:
+	if _connected_source == source:
+		print("Disconnected from: ", source)
+		disconnect_from_energy_source()
+		return
 	if _connected_source:
 		disconnect_from_energy_source()
+		print("Disconnected")
 	_connected_source = source
-	cables._connect(self, source)
+	print("Connected to: ", source)
+	emit_signal("charging_started")
+	#cables._connect(self, source)
 
 func disconnect_from_energy_source() -> void:
 	_connected_source = null

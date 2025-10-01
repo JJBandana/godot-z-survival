@@ -1,7 +1,6 @@
 extends Node3D
 
 @onready var marker: Node3D = $TargetMaker
-@onready var camera: Camera3D = $"../CarCamera"
 @onready var crates: Array = $Boxes.get_children()
 @export var move_speed: float = 10.0
 @export var max_distance: float = 20.0  # distancia máxima desde el auto

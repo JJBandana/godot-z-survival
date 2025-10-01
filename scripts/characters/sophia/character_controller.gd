@@ -14,57 +14,38 @@ var inside_car:= false
 @export var interact_distance := 3.0
 
 var carrying_turret = null
-var _camera_input_direction := Vector2.ZERO
 var _last_movement_direction := Vector3.BACK
 var _gravity := -30.0
 var turret_scene: PackedScene = preload("res://scenes/characters/turret/turret.tscn")
+var camera_original_transform: Transform3D
+var camera_original_length: float
 
 @onready var car : Truck = get_tree().get_first_node_in_group("vehicle")
-@onready var _camera_pivot: Node3D = %CameraPivot
-@onready var _camera: Camera3D = %Camera3D
+@onready var _camera: Camera3D = $CameraController/CameraPivot/SpringArm3D/Camera3D
+@onready var _camera_pivot: Node3D = $CameraController/CameraPivot
 @onready var _skin: SophiaSkin = %SophiaSkin
 @onready var world_node: Node3D = get_parent()
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
-func _input(event):
-	if event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE	
-
 func _unhandled_input(event: InputEvent) -> void:
-	var is_camera_motion := (
-		event is InputEventMouseMotion and
-		Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
-	)
-	
 	if event.is_action_pressed("deploy_turret"):
 		if inside_car:
 			car._start_turret_deploy()
-	
-	if is_camera_motion: _camera_input_direction = event.screen_relative * mouse_sensitivity
-	
+
 func _process(_delta):		
 	if Input.is_action_just_pressed("interact"):
 		var energy_source = _find_nearest_panel()
-		if energy_source:
-			if car:
-				car.connect_to_energy_source(energy_source)
-		
-	if Input.is_action_just_pressed("interact"):
-		if not inside_car and car and global_position.distance_to(car.global_position) < 3.0:
+		if energy_source and car:
+			car.connect_to_energy_source(energy_source)
+		elif not inside_car and car and global_position.distance_to(car.global_position) < 3.0:
 			_enter_car()
 		elif inside_car:
 			_exit_car()
 
 func _physics_process(delta: float) -> void:
 	var speed = 3.0 if carrying_turret else move_speed
-	
-	_camera_pivot.rotation.x += _camera_input_direction.y * delta
-	_camera_pivot.rotation.x = clamp(_camera_pivot.rotation.x, -PI / 6.0, PI / 3.0)
-	_camera_pivot.rotation.y -= _camera_input_direction.x * delta
-	
-	_camera_input_direction = Vector2.ZERO
 	
 	var raw_input := Input.get_vector("left", "right", "forward", "backwards")
 	var forward := _camera.global_basis.z
@@ -112,21 +93,29 @@ func _on_turret_picked_up(player):
 	
 func _enter_car() -> void:
 	inside_car = true
-	visible = false  # ocultar al jugador dentro del auto
-	_camera.current = false
-	car.get_node("CarCamera").current = true
-	car.set_process_input(true)   # activar control del auto
-	set_process_input(false)      # desactivar control del player
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	visible = false
+	set_physics_process(false) # desactivar control del player
+	
+	camera_original_transform = $CameraController.global_transform
+	camera_original_length = $CameraController/CameraPivot/SpringArm3D.get_hit_length()
+	
+	var car_cam_pos = car.global_transform.origin
+	$CameraController.global_transform.origin = car_cam_pos
 
+	# Ajustar distancia de la cámara (SpringArm)
+	$CameraController/CameraPivot/SpringArm3D.spring_length = 10
+	
+	
 func _exit_car() -> void:
 	inside_car = false
 	visible = true
+	var prev_rot = $CameraController.transform.basis
 	global_position = car.global_position + Vector3(2, 0, 0)  # salir al lado
 	_camera.current = true
-	car.get_node("CarCamera").current = false
-	car.set_process_input(false) 
-	set_process_input(true)
+	$CameraController.transform = Transform3D(prev_rot, Vector3.ZERO)
+	$CameraController/CameraPivot/SpringArm3D.spring_length = 5.0
+	
+	set_physics_process(true)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
 
 func _find_nearest_panel() -> EnergySource:

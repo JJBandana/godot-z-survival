@@ -30,6 +30,7 @@ var _target: Node3D = null
 var _time_since_last_shot: float = 0.0
 
 func _ready() -> void:
+	GameManager.register_turret(self)
 	_recalculate_stats()
 
 func _physics_process(delta: float) -> void:

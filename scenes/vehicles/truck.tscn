@@ -27,20 +27,17 @@ script = ExtResource("3_snisb")
 
 [node name="Boxes" type="Node3D" parent="PickUpArea" index="0"]
 
-[node name="DropCrate" parent="PickUpArea/Boxes" index="0" instance=ExtResource("4_1nt08")]
-transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0.22535512, 0.829947, -0.48835406)
-
-[node name="DropCrate3" parent="PickUpArea/Boxes" index="1" instance=ExtResource("4_1nt08")]
+[node name="DropCrate3" parent="PickUpArea/Boxes" index="0" instance=ExtResource("4_1nt08")]
 transform = Transform3D(0.20714569, -0.39948794, 0, 0.39948794, 0.20714569, 0, 0, 0, 0.45, -0.29624796, 0.98145175, -0.49150535)
 
-[node name="DropCrate2" parent="PickUpArea/Boxes" index="2" instance=ExtResource("4_1nt08")]
+[node name="DropCrate2" parent="PickUpArea/Boxes" index="1" instance=ExtResource("4_1nt08")]
 transform = Transform3D(0.24678448, 0, -0.37629429, 0, 0.44999996, 0, 0.37629429, 0, 0.24678448, 0.13558975, 0.79071414, -1.0428557)
+
+[node name="DropCrate" parent="PickUpArea/Boxes" index="2" instance=ExtResource("4_1nt08")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0.22535512, 0.829947, -0.48835406)
 
 [node name="TargetMaker" parent="PickUpArea" index="1" instance=ExtResource("7_06x5k")]
 visible = false
 
-[node name="CarCamera" type="Camera3D" parent="." index="7"]
-transform = Transform3D(-0.5, 2.8097137e-08, -3.3484866e-08, 0, 0.38302222, 0.3213938, 4.371139e-08, 0.3213938, -0.38302222, 0, 3.4035187, -4.3279123)
-
-[node name="Cables" type="Node3D" parent="." index="8"]
+[node name="Cables" type="Node3D" parent="." index="7"]
 script = ExtResource("6_1nt08")
