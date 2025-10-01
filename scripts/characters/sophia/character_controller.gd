@@ -1,7 +1,6 @@
 extends CharacterBody3D
 
 var inside_car:= false
-@export var car: Node3D = null
 
 @export_group("Camera")
 @export_range(0.0, 1.0) var mouse_sensitivity := 0.25
@@ -12,6 +11,7 @@ var inside_car:= false
 @export var rotation_speed := 12.0
 @export var jump_impulse := 12.0
 @export var carry_speed := 3.0
+@export var interact_distance := 3.0
 
 var carrying_turret = null
 var _camera_input_direction := Vector2.ZERO
@@ -19,6 +19,7 @@ var _last_movement_direction := Vector3.BACK
 var _gravity := -30.0
 var turret_scene: PackedScene = preload("res://scenes/characters/turret/turret.tscn")
 
+@onready var car : Truck = get_tree().get_first_node_in_group("vehicle")
 @onready var _camera_pivot: Node3D = %CameraPivot
 @onready var _camera: Camera3D = %Camera3D
 @onready var _skin: SophiaSkin = %SophiaSkin
@@ -26,19 +27,10 @@ var turret_scene: PackedScene = preload("res://scenes/characters/turret/turret.t
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	for area in get_tree().get_nodes_in_group("pickup_area"):
-		area.turret_picked_up.connect(_on_turret_picked_up)
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"):
-		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	if Input.is_action_just_pressed("interact"):
-		if not carrying_turret:
-			for area in get_tree().get_nodes_in_group("pickup_area"):
-				area.try_pickup_turret()
-		else:
-			place_turret()
-	
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE	
 
 func _unhandled_input(event: InputEvent) -> void:
 	var is_camera_motion := (
@@ -52,14 +44,12 @@ func _unhandled_input(event: InputEvent) -> void:
 	
 	if is_camera_motion: _camera_input_direction = event.screen_relative * mouse_sensitivity
 	
-func _process(_delta):
-	if carrying_turret:
-		var forward = _skin.global_transform.basis.z.normalized()
-		var place_position = _skin.global_position + forward * 2.0
-		place_position.y = 0  # TODO: Adjust later
-		carrying_turret.global_position = place_position
-
-		carrying_turret.look_at(place_position - forward, Vector3.UP)
+func _process(_delta):		
+	if Input.is_action_just_pressed("interact"):
+		var energy_source = _find_nearest_panel()
+		if energy_source:
+			if car:
+				car.connect_to_energy_source(energy_source)
 		
 	if Input.is_action_just_pressed("interact"):
 		if not inside_car and car and global_position.distance_to(car.global_position) < 3.0:
@@ -119,23 +109,6 @@ func _on_turret_picked_up(player):
 	carrying_turret = turret_scene.instantiate()
 	add_child(carrying_turret)
 	carrying_turret.global_position = global_position
-
-func place_turret():
-	if not carrying_turret:
-		return
-
-	# Guardar su transform global antes de cambiar de padre
-	var global_t = carrying_turret.global_transform
-
-	carrying_turret.get_parent().remove_child(carrying_turret)
-	get_parent().add_child(carrying_turret)
-
-	# Restaurar la posición global
-	carrying_turret.global_transform = global_t
-	GameManager.register_turret(carrying_turret)
-
-	# Ya estaba colocada enfrente en _process
-	carrying_turret = null
 	
 func _enter_car() -> void:
 	inside_car = true
@@ -155,4 +128,14 @@ func _exit_car() -> void:
 	car.set_process_input(false) 
 	set_process_input(true)
 	Input.mouse_mode = Input.MOUSE_MODE_CAPTURED
-	
+
+func _find_nearest_panel() -> EnergySource:
+	var generators = get_tree().get_nodes_in_group("energy_sources")
+	var closest: EnergySource = null
+	var min_dist = interact_distance
+	for p in generators:
+		var dist = global_position.distance_to(p.global_position)
+		if dist < min_dist:
+			min_dist = dist
+			closest = p
+	return closest

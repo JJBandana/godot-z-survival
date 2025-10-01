@@ -2,7 +2,7 @@ extends Node3D
 
 @onready var marker: Node3D = $TargetMaker
 @onready var camera: Camera3D = $"../CarCamera"
-@onready var crate_scene := preload("uid://e1omsfl5niia")
+@onready var crates: Array = $Boxes.get_children()
 @export var move_speed: float = 10.0
 @export var max_distance: float = 20.0  # distancia máxima desde el auto
 
@@ -10,6 +10,8 @@ var in_deploy_mode := false
 var _current_target := Vector3.ZERO
 
 func enter_deploy_mode() -> void:
+	if crates.is_empty():
+		return
 	in_deploy_mode = true
 	# El marker arranca en frente del auto
 	_current_target = global_position + transform.basis.z * -5.0
@@ -24,13 +26,13 @@ func _physics_process(delta: float) -> void:
 		return
 
 	var input_dir = Vector3.ZERO
-	if Input.is_action_pressed("ui_up"): # W
+	if Input.is_action_pressed("forward"): # W
 		input_dir.z += 1
-	if Input.is_action_pressed("ui_down"): # S
+	if Input.is_action_pressed("backwards"): # S
 		input_dir.z -= 1
-	if Input.is_action_pressed("ui_left"): # A
+	if Input.is_action_pressed("left"): # A
 		input_dir.x += 1
-	if Input.is_action_pressed("ui_right"): # D
+	if Input.is_action_pressed("right"): # D
 		input_dir.x -= 1
 
 	if input_dir != Vector3.ZERO:
@@ -48,12 +50,11 @@ func _physics_process(delta: float) -> void:
 		marker.global_position = _current_target
 
 	# Confirmar con espacio
-	if Input.is_action_just_pressed("ui_accept"):
+	if Input.is_action_just_pressed("ui_accept") and not crates.is_empty():
 		_confirm_deploy()
 
 func _confirm_deploy() -> void:
-	var crate = crate_scene.instantiate()
-	self.get_parent().add_child(crate)
+	var crate = crates.pop_front()
 	# punto de salida (por encima del capó)
 	var start_pos = global_transform.origin + Vector3.UP * 2.0 + transform.basis.z * -1.5
 	crate.start_drop(start_pos, _current_target, 1, 10)

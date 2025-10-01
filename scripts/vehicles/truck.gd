@@ -1,11 +1,19 @@
 extends Node3D
+class_name Truck
+
+@onready var cables: Cable = $Cables
+
 
 @export var max_health := 200.0
 @export var max_battery := 100.0
-@export var charge_speed := 2.0 # % por segundo
+@export var battery_charge : float = 0.0 :
+	set(new_value):
+		battery_charge = new_value
+		battery_changed.emit(new_value, max_battery)
+
+@export var _connected_source = null
 
 var health : float
-var battery : float
 var is_charging := false
 
 signal health_changed(value, max_value)
@@ -17,17 +25,23 @@ signal charging_started
 func _ready():
 	GameManager.register_vehicle(self)
 	health = max_health
-	battery = 0.0
 	emit_signal("health_changed", health, max_health)
-	emit_signal("battery_changed", battery, max_battery)
+	emit_signal("battery_changed", battery_charge, max_battery)
 
 func _process(delta):
-	if health > 0 and battery < max_battery and is_charging:
-		battery += charge_speed * delta
-		if battery >= max_battery:
-			battery = max_battery
-			stop_charging()
-		emit_signal("battery_changed", battery, max_battery)
+	if _connected_source:
+		var energy = _connected_source.provide_energy(delta)
+		
+		battery_charge = clampf(battery_charge + energy, 0, max_battery)
+
+func connect_to_energy_source(source: EnergySource) -> void:
+	if _connected_source:
+		disconnect_from_energy_source()
+	_connected_source = source
+	cables._connect(self, source)
+
+func disconnect_from_energy_source() -> void:
+	_connected_source = null
 
 func take_damage(amount: float):
 	if health <= 0:
@@ -50,11 +64,5 @@ func stop_charging():
 	is_charging = false
 	emit_signal("battery_full")
 
-
-func _on_hood_body_entered(body: Node3D) -> void:
-	if body.is_in_group("player"):
-		print("Player entered")
-		start_charging()
-		
 func _start_turret_deploy():
 	$PickUpArea.enter_deploy_mode()

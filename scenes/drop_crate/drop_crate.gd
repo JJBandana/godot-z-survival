@@ -1,5 +1,9 @@
 extends Node3D
+class_name DropCrate
 # Caja que vuela en parábola y al aterrizar instancia la torreta
+@onready var launch: GPUParticles3D = $Particles/Launch
+@onready var trail: GPUParticles3D = $Particles/Trail
+@onready var deploy: GPUParticles3D = $Particles/Deploy
 
 const TURRET = preload("uid://bn7al7rtwq32n")
 @export var total_flight_time: float = 1.2    # segundos
@@ -26,6 +30,8 @@ func start_drop(start_pos: Vector3, target_pos: Vector3, flight_time: float = -1
 		arc_height = height
 	global_position = _start
 	_flying = true
+	launch.emitting = true
+	trail.emitting = true
 	set_physics_process(true)
 
 func _physics_process(delta: float) -> void:
@@ -42,7 +48,7 @@ func _physics_process(delta: float) -> void:
 	global_position = pos
 
 	# rotación suave para que la caja "gire"
-	rotate_y(5.0 * delta)
+	rotate_z(5.0 * delta)
 
 	if t >= 1.0:
 		_flying = false
@@ -50,12 +56,14 @@ func _physics_process(delta: float) -> void:
 
 func _on_landed() -> void:
 	# Puedes reproducir partículas/sonido aquí
-	if has_node("Particles3D"):
-		$Particles3D.emitting = true
+	trail.emitting = false
+	deploy.emitting = true
 	# Espera un poco (visual) y luego instancia la torreta
 	await get_tree().create_timer(impact_delay).timeout
 
 	_spawn_turret()
+	
+	await get_tree().create_timer(trail.lifetime).timeout
 	queue_free()
 
 func _spawn_turret() -> void:

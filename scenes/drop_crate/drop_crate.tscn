@@ -1,12 +1,45 @@
-[gd_scene load_steps=4 format=3 uid="uid://e1omsfl5niia"]
+[gd_scene load_steps=10 format=3 uid="uid://e1omsfl5niia"]
 
-[ext_resource type="Texture2D" uid="uid://c4m27f22uekvf" path="res://addons/kenney_prototype_textures/red/texture_09.png" id="1_2s7te"]
 [ext_resource type="Script" uid="uid://cblmxy83pipp7" path="res://scenes/drop_crate/drop_crate.gd" id="1_11m38"]
+[ext_resource type="Texture2D" uid="uid://6pwd3jcq5nve" path="res://addons/kenney_prototype_textures/orange/texture_10.png" id="2_11m38"]
+[ext_resource type="Texture2D" uid="uid://bb85oeg1pvauk" path="res://addons/kenney_prototype_textures/light/texture_08.png" id="3_whqqw"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_11m38"]
-albedo_texture = ExtResource("1_2s7te")
+albedo_texture = ExtResource("2_11m38")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_d1p82"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 150.0
+flatness = 1.0
+initial_velocity_min = 8.0
+initial_velocity_max = 10.0
+orbit_velocity_min = -1.3629999
+orbit_velocity_max = 1.1470002
+gravity = Vector3(0, 2, 0)
+scale_min = 0.5
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j7bp5"]
+albedo_texture = ExtResource("3_whqqw")
+
+[sub_resource type="SphereMesh" id="SphereMesh_h1y0n"]
+material = SubResource("StandardMaterial3D_j7bp5")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j7bp5"]
+gravity = Vector3(0, -10, 0)
+scale_min = 0.25
+scale_max = 0.5
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_whqqw"]
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 100.0
+initial_velocity_min = 8.0
+initial_velocity_max = 10.0
+gravity = Vector3(0, -5, 0)
 
 [node name="DropCrate" type="Node3D"]
+transform = Transform3D(0.4, 0, 0, 0, 0.4, 0, 0, 0, 0.4, 0, 0, 0)
 script = ExtResource("1_11m38")
 
 [node name="CSGBox3D" type="CSGBox3D" parent="."]
@@ -14,3 +47,29 @@ use_collision = true
 collision_layer = 0
 collision_mask = 7
 material = SubResource("StandardMaterial3D_11m38")
+
+[node name="Particles" type="Node3D" parent="."]
+
+[node name="Launch" type="GPUParticles3D" parent="Particles"]
+emitting = false
+amount = 24
+lifetime = 0.25
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_d1p82")
+draw_pass_1 = SubResource("SphereMesh_h1y0n")
+
+[node name="Trail" type="GPUParticles3D" parent="Particles"]
+emitting = false
+amount = 20
+process_material = SubResource("ParticleProcessMaterial_j7bp5")
+draw_pass_1 = SubResource("SphereMesh_h1y0n")
+
+[node name="Deploy" type="GPUParticles3D" parent="Particles"]
+emitting = false
+amount = 24
+lifetime = 0.25
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_whqqw")
+draw_pass_1 = SubResource("SphereMesh_h1y0n")

@@ -41,6 +41,7 @@ vehicle=""
 turret=""
 pickup_area=""
 turrets=""
+energy_sources=""
 
 [input]
 

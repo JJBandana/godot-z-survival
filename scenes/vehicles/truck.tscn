@@ -1,25 +1,18 @@
-[gd_scene load_steps=9 format=3 uid="uid://bsbkds0qgt24m"]
+[gd_scene load_steps=8 format=3 uid="uid://bqeis44ueqsri"]
 
-[ext_resource type="PackedScene" uid="uid://buybdlgvkmojy" path="res://assets/vehicles/truck.glb" id="1_adwpd"]
-[ext_resource type="Script" uid="uid://b4jqlirml7sqh" path="res://scripts/vehicles/truck.gd" id="2_70qb7"]
-[ext_resource type="Script" uid="uid://cvg2ha5xcg517" path="res://scripts/vehicles/pick_up_area.gd" id="3_rq6fk"]
-[ext_resource type="Texture2D" uid="uid://ukftqqauyup7" path="res://addons/kenney_prototype_textures/orange/texture_05.png" id="3_srtb0"]
+[ext_resource type="PackedScene" uid="uid://buybdlgvkmojy" path="res://assets/vehicles/truck.glb" id="1_snisb"]
+[ext_resource type="Script" uid="uid://b4jqlirml7sqh" path="res://scripts/vehicles/truck.gd" id="2_1ikcq"]
+[ext_resource type="Script" uid="uid://7wdfq5lawsnv" path="res://scenes/drop_crate/turret_launcher.gd" id="3_snisb"]
+[ext_resource type="PackedScene" uid="uid://e1omsfl5niia" path="res://scenes/drop_crate/drop_crate.tscn" id="4_1nt08"]
+[ext_resource type="Script" uid="uid://bqv4rn21od8y5" path="res://scripts/vehicles/cable.gd" id="6_1nt08"]
+[ext_resource type="PackedScene" uid="uid://bdw06uagyqccc" path="res://scenes/drop_crate/target_maker.tscn" id="7_06x5k"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_adwpd"]
 size = Vector3(1.3027344, 1, 2.9522705)
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_70qb7"]
-size = Vector3(1.5, 0.8544922, 0.7523804)
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_srtb0"]
-size = Vector3(2.1728516, 1, 2.0933685)
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_rq6fk"]
-albedo_texture = ExtResource("3_srtb0")
-
-[node name="Truck" instance=ExtResource("1_adwpd")]
+[node name="Truck" groups=["vehicle"] instance=ExtResource("1_snisb")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 0, 0)
-script = ExtResource("2_70qb7")
+script = ExtResource("2_1ikcq")
 
 [node name="Collision" type="StaticBody3D" parent="." index="5"]
 collision_layer = 8
@@ -29,41 +22,25 @@ collision_mask = 0
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, -0.023864746)
 shape = SubResource("BoxShape3D_adwpd")
 
-[node name="Hood" type="Area3D" parent="." index="6"]
-collision_layer = 0
-collision_mask = 2
-monitorable = false
+[node name="PickUpArea" type="Node3D" parent="." index="6"]
+script = ExtResource("3_snisb")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Hood" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4272461, 1.8547156)
-shape = SubResource("BoxShape3D_70qb7")
+[node name="Boxes" type="Node3D" parent="PickUpArea" index="0"]
 
-[node name="PickUpArea" type="Area3D" parent="." index="7" groups=["pickup_area"]]
-collision_layer = 0
-collision_mask = 2
-script = ExtResource("3_rq6fk")
+[node name="DropCrate" parent="PickUpArea/Boxes" index="0" instance=ExtResource("4_1nt08")]
+transform = Transform3D(0.45, 0, 0, 0, 0.45, 0, 0, 0, 0.45, 0.22535512, 0.829947, -0.48835406)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="PickUpArea" index="0"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.38044918, -0.7202034)
-shape = SubResource("BoxShape3D_srtb0")
+[node name="DropCrate3" parent="PickUpArea/Boxes" index="1" instance=ExtResource("4_1nt08")]
+transform = Transform3D(0.20714569, -0.39948794, 0, 0.39948794, 0.20714569, 0, 0, 0, 0.45, -0.29624796, 0.98145175, -0.49150535)
 
-[node name="Boxes" type="Node3D" parent="PickUpArea" index="1"]
+[node name="DropCrate2" parent="PickUpArea/Boxes" index="2" instance=ExtResource("4_1nt08")]
+transform = Transform3D(0.24678448, 0, -0.37629429, 0, 0.44999996, 0, 0.37629429, 0, 0.24678448, 0.13558975, 0.79071414, -1.0428557)
 
-[node name="Box3D" type="CSGBox3D" parent="PickUpArea/Boxes" index="0"]
-transform = Transform3D(0.8604665, 0, 0.50950706, 0, 1, 0, -0.50950706, 0, 0.8604665, 0.17299044, 0.75, -0.49680543)
-size = Vector3(0.4, 0.4, 0.4)
-material = SubResource("StandardMaterial3D_rq6fk")
+[node name="TargetMaker" parent="PickUpArea" index="1" instance=ExtResource("7_06x5k")]
+visible = false
 
-[node name="Box3D2" type="CSGBox3D" parent="PickUpArea/Boxes" index="1"]
-transform = Transform3D(0.99992245, 0, -0.012461312, 0, 1, 0, 0.012461312, 0, 0.99992245, -0.22734734, 0.75, -0.8101698)
-size = Vector3(0.4, 0.4, 0.4)
-material = SubResource("StandardMaterial3D_rq6fk")
+[node name="CarCamera" type="Camera3D" parent="." index="7"]
+transform = Transform3D(-0.5, 2.8097137e-08, -3.3484866e-08, 0, 0.38302222, 0.3213938, 4.371139e-08, 0.3213938, -0.38302222, 0, 3.4035187, -4.3279123)
 
-[node name="CSGBox3D3" type="CSGBox3D" parent="PickUpArea/Boxes" index="2"]
-transform = Transform3D(0.9449775, 0, 0.32713544, 0, 1, 0, -0.32713544, 0, 0.9449775, 0.18735859, 0.75, -1.0841308)
-size = Vector3(0.4, 0.4, 0.4)
-material = SubResource("StandardMaterial3D_rq6fk")
-
-[connection signal="body_entered" from="Hood" to="." method="_on_hood_body_entered"]
-[connection signal="body_entered" from="PickUpArea" to="PickUpArea" method="_on_body_entered"]
-[connection signal="body_exited" from="PickUpArea" to="PickUpArea" method="_on_body_exited"]
+[node name="Cables" type="Node3D" parent="." index="8"]
+script = ExtResource("6_1nt08")

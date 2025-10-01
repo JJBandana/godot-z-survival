@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://cdur04yr3hpvf"]
+
+[ext_resource type="Texture2D" uid="uid://doyfpixv275ra" path="res://addons/kenney_prototype_textures/purple/texture_10.png" id="1_2m88b"]
+[ext_resource type="Script" uid="uid://ciwk5o5jsmy24" path="res://scripts/energy_source/energy_source.gd" id="1_v5bf2"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v5bf2"]
+albedo_texture = ExtResource("1_2m88b")
+uv1_scale = Vector3(1, 6, 1)
+
+[node name="EnergySource" type="Node3D" groups=["energy_sources"]]
+script = ExtResource("1_v5bf2")
+
+[node name="CSGCylinder3D" type="CSGCylinder3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.459319, 0)
+height = 8.894531
+material = SubResource("StandardMaterial3D_v5bf2")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://d1ll7bk11rbmg"]
+[gd_scene load_steps=17 format=3 uid="uid://d1ll7bk11rbmg"]
 
 [ext_resource type="Texture2D" uid="uid://op2bfbt6w04w" path="res://addons/kenney_prototype_textures/green/texture_08.png" id="1_f3sb7"]
 [ext_resource type="PackedScene" uid="uid://cbp0l57d2kfla" path="res://scenes/hud/hud.tscn" id="1_gbfbk"]
@@ -8,7 +8,8 @@
 [ext_resource type="Script" uid="uid://bs4ojwjunr4y5" path="res://scripts/systems/wave_manager.gd" id="8_dp8al"]
 [ext_resource type="PackedScene" uid="uid://c31811vueqnv" path="res://scenes/upgrade_item/upgrade_item.tscn" id="8_f1v6p"]
 [ext_resource type="Script" uid="uid://c5ecsstbmwi82" path="res://scripts/strategies/damage_upgrade.gd" id="9_f1v6p"]
-[ext_resource type="PackedScene" uid="uid://bqeis44ueqsri" path="res://scenes/vehicles/new_car.tscn" id="10_csbb7"]
+[ext_resource type="PackedScene" uid="uid://bqeis44ueqsri" path="res://scenes/vehicles/truck.tscn" id="10_csbb7"]
+[ext_resource type="PackedScene" uid="uid://cdur04yr3hpvf" path="res://scenes/energy_source/energy_source.tscn" id="10_mmplq"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_f3sb7"]
 sky_top_color = Color(1.92523e-06, 0.68516344, 0.6199385, 1)
@@ -47,9 +48,8 @@ shadow_enabled = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_f3sb7")
 
-[node name="CharacterBody3D" parent="." node_paths=PackedStringArray("car") instance=ExtResource("2_fj7yv")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.1069617, 0.50361943, 8.053774)
-car = NodePath("../Truck")
+[node name="CharacterBody3D" parent="." instance=ExtResource("2_fj7yv")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4.6533766, 0.50361943, 8.053774)
 
 [node name="Ground" type="Node3D" parent="."]
 
@@ -104,3 +104,9 @@ upgrade_data = SubResource("Resource_csbb7")
 
 [node name="Truck" parent="." instance=ExtResource("10_csbb7")]
 transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 9.917625, 0.5, 6.928787)
+
+[node name="EnergySource" parent="." instance=ExtResource("10_mmplq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 8.734504, 0, 15.697439)
+
+[node name="EnergySource2" parent="." instance=ExtResource("10_mmplq")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 23.97285, 0, 4.069092)
