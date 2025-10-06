@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseTurretStrategy" load_steps=2 format=3 uid="uid://c155ws4j6cuyb"]
+
+[ext_resource type="Script" uid="uid://bssw1jxgphyih" path="res://scripts/strategies/base_turret_strategy.gd" id="1_wd3t4"]
+
+[resource]
+script = ExtResource("1_wd3t4")
+upgrade_title = "Freezing Upgrade"
+is_global = true
+freeze_duration = 1.0
+metadata/_custom_type_script = "uid://bssw1jxgphyih"

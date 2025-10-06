@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dedvgork34awh" path="res://scenes/upgrade_item/upgrade_item.gd" id="1_2kwsp"]
 [ext_resource type="Texture2D" uid="uid://doyfpixv275ra" path="res://addons/kenney_prototype_textures/purple/texture_10.png" id="2_p826g"]
-[ext_resource type="Resource" uid="uid://cliopk4k7pgum" path="res://resources/DamageUpgrade.tres" id="2_x3csw"]
+[ext_resource type="Resource" uid="uid://cliopk4k7pgum" path="res://resources/turret_strategy/DamageUpgrade.tres" id="2_x3csw"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_wk3g2"]
 height = 0.5

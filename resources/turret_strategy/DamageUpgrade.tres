@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BaseTurretStrategy" load_steps=2 format=3 uid="uid://b2lq6jxb4820g"]
+
+[ext_resource type="Script" uid="uid://bssw1jxgphyih" path="res://scripts/strategies/base_turret_strategy.gd" id="1_46pr6"]
+
+[resource]
+script = ExtResource("1_46pr6")
+upgrade_title = "Damage Upgrade"
+upgrade_text = "Add +15 points of damage"
+is_global = true
+damage = 10.0
+metadata/_custom_type_script = "uid://bssw1jxgphyih"

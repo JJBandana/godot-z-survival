@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseTurretStrategy" load_steps=2 format=3 uid="uid://d3gruaaey34bs"]
+
+[ext_resource type="Script" uid="uid://bssw1jxgphyih" path="res://scripts/strategies/base_turret_strategy.gd" id="1_kuttn"]
+
+[resource]
+script = ExtResource("1_kuttn")
+upgrade_title = "Burning Damage"
+is_global = true
+burn_damage = 5.0
+metadata/_custom_type_script = "uid://bssw1jxgphyih"

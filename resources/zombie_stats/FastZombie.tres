@@ -1,0 +1,12 @@
+[gd_resource type="Resource" script_class="ZombieStats" load_steps=2 format=3 uid="uid://bhit8xsssuq7f"]
+
+[ext_resource type="Script" uid="uid://86tddm7es3a" path="res://scripts/characters/godot_z/zombie_stats.gd" id="1_0wdn7"]
+
+[resource]
+script = ExtResource("1_0wdn7")
+zombie_type = "Normal Zombie"
+move_speed = 3.0
+attack_cooldown = 0.75
+health = 10
+damage = 6
+metadata/_custom_type_script = "uid://86tddm7es3a"

@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseTurretStrategy" load_steps=2 format=3 uid="uid://dysckx4sk86hr"]
+
+[ext_resource type="Script" uid="uid://bssw1jxgphyih" path="res://scripts/strategies/base_turret_strategy.gd" id="1_5kiml"]
+
+[resource]
+script = ExtResource("1_5kiml")
+upgrade_title = "Fire Rate Upgrade"
+is_global = true
+fire_rate_multiplier = 0.7
+metadata/_custom_type_script = "uid://bssw1jxgphyih"

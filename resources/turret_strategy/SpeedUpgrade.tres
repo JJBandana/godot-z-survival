@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseTurretStrategy" load_steps=2 format=3 uid="uid://djxylcveleayu"]
+
+[ext_resource type="Script" uid="uid://bssw1jxgphyih" path="res://scripts/strategies/base_turret_strategy.gd" id="1_su0lb"]
+
+[resource]
+script = ExtResource("1_su0lb")
+upgrade_title = "Bullet Speed Upgrade"
+is_global = true
+bullet_speed = 30.0
+metadata/_custom_type_script = "uid://bssw1jxgphyih"

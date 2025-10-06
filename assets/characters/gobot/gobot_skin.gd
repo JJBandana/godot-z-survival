@@ -40,7 +40,6 @@ func _ready():
 				_blink_timer.start(randf_range(1.0, 8.0))
 	)
 
-
 func set_blink(state: bool):
 	if blink == state: return
 	blink = state
@@ -50,7 +49,7 @@ func set_blink(state: bool):
 	else:
 		if _blink_timer:
 			_blink_timer.stop()
-		if _closed_eyes_timer:		
+		if _closed_eyes_timer:
 			_closed_eyes_timer.stop()
 
 ## Sets the model to a neutral, action-free state.

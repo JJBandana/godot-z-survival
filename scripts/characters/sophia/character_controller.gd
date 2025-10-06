@@ -22,7 +22,6 @@ var camera_original_length: float
 
 @onready var car : Truck = get_tree().get_first_node_in_group("vehicle")
 @onready var _camera: Camera3D = $CameraController/CameraPivot/SpringArm3D/Camera3D
-@onready var _camera_pivot: Node3D = $CameraController/CameraPivot
 @onready var _skin: SophiaSkin = %SophiaSkin
 @onready var world_node: Node3D = get_parent()
 

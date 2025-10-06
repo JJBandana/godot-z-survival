@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="BaseTurretStrategy" load_steps=2 format=3 uid="uid://buhech61y0xgg"]
+
+[ext_resource type="Script" uid="uid://bssw1jxgphyih" path="res://scripts/strategies/base_turret_strategy.gd" id="1_51htd"]
+
+[resource]
+script = ExtResource("1_51htd")
+upgrade_title = "Piercing Shot Upgrade"
+is_global = true
+pierce = 1
+metadata/_custom_type_script = "uid://bssw1jxgphyih"

@@ -1,8 +1,11 @@
 class_name ZombieStats extends Resource
 
+@export var zombie_type := "Zombie Name"
+
 @export_group("Movement")
 @export var acceleration: float = 10.0
 @export var move_speed: float = 3.5
+@export var attack_cooldown: float = 1.5
 
 @export_group("Stats")
 @export var health: int = 100
